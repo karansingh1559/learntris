@@ -4,14 +4,20 @@ from __future__ import print_function
 WIDTH, HEIGHT = 10,22 
 baseMatrix=[['.' for x in range(WIDTH)] for y in range(HEIGHT)]
 matrix=[['.' for x in range(WIDTH)] for y in range(HEIGHT)]
+score=0
+ncl=0       #number of cleared lines
+emptyRow= ['.' for x in range(WIDTH)]
+
 
 def printMatrix():
+    global matrix
     for y in range(HEIGHT):
         for x in range(WIDTH-1):
             print(matrix[y][x], end=' ')
         print(matrix[y][x+1], end='\n')
 
 def saveMatrix():
+    global matrix
     for y in range(HEIGHT):
         x_vec=raw_input()
         vec = (x_vec.split(' '))
@@ -19,8 +25,17 @@ def saveMatrix():
             matrix[y][i]=vec[i]
 
 def clearMatrix():
-    global matrix=[['.' for x in range(WIDTH)] for y in range(HEIGHT)]
+    global matrix
+    matrix=[['.' for x in range(WIDTH)] for y in range(HEIGHT)]
 
+def step():
+    global score, ncl, matrix
+    for row in matrix:
+        if not '.' in row:
+            row[:] = emptyRow
+            ncl=ncl+1
+            score=score+100
+    
 while(True):
     inp = raw_input()
     if (inp=='q'):
@@ -31,3 +46,10 @@ while(True):
         saveMatrix()
     elif inp=='c':
         clearMatrix()
+    elif inp=='?s':
+        print(score)
+    elif inp=='?n':
+        print(ncl)
+    elif inp=='s':
+        step()
+
